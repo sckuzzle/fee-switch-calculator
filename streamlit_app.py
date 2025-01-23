@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import math
-import plotly as plt
+import plotly.graph_objects as go
 from pathlib import Path
 
 # Set the title and favicon that appear in the Browser's tab bar.
@@ -104,18 +104,29 @@ filtered_gdp_df = gdp_df[
     (gdp_df['Country Code'].isin(selected_countries))
     & (gdp_df['Year'] <= to_year)
     & (from_year <= gdp_df['Year'])
-]
-
+    ]
+GDP_plot = {}
+for country in selected_countries:
+    GDP_plot[country] = gdp_df[
+        (gdp_df['Country Code']==country)
+        & (gdp_df['Year'] <= to_year)
+        & (from_year <= gdp_df['Year'])]
 st.header('GDP over time', divider='gray')
 
 ''
 
-st.plotly_chart(
-    filtered_gdp_df,
-    x='Year',
-    y='GDP',
-    color='Country Code',
-)
+# st.line_chart(
+#     filtered_gdp_df,
+#     x='Year',
+#     y='GDP',
+#     color='Country Code',
+# )
+fig = go.Figure()
+for country in selected_countries:
+    fig.add_trace(go.Scatter(x=GDP_plot[country]['Year'], y = GDP_plot[country]['GDP'],
+                        mode='lines',
+                        name=country))
+st.plotly_chart(fig)
 
 ''
 ''
