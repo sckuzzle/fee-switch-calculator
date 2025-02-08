@@ -38,7 +38,7 @@ st.markdown(f'Note: could also display the last sentence as "This means that eac
 
 #NO Calculations
 validator_income = NO_pools*(nETH_per+(32-nETH_per)*NO_share/100)*solo_staking_apr/100*28/365
-percent_of_max = staked_RPL*rpl_ratio / 1.5*4*NO_pools
+percent_of_max = staked_RPL*rpl_ratio / (1.5*4*NO_pools)*100
 effective_RPL = min(1.5*4*NO_pools/rpl_ratio, staked_RPL)
 RPL_income = flow_per_RPL*effective_RPL
 total_income = validator_income + RPL_income
