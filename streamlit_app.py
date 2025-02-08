@@ -15,8 +15,8 @@ st.set_page_config(
 
 # Set the title that appears at the top of the page.
 pg = st.navigation({'Calculators': [st.Page("home.py", title = 'Home'), 
-                                    st.Page("staking.py", title = 'Staking'), 
-                                    st.Page('ETH_flow.py', title = 'ETH Flow'),
+                                    st.Page("staking.py", title = 'Saturn 1 Staking'), 
+                                    st.Page('ETH_flow.py', title = 'Placeholder Calc'),
                                     ],
                     'Resources':[st.Page('assumptions.py', title = 'Assumptions'),
                                  st.Page('terms.py', title = 'Terms'),
