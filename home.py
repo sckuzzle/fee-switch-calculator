@@ -4,16 +4,18 @@ import math
 import plotly.graph_objects as go
 from pathlib import Path
 
-st.title('NOTE: Work In Progress.  DO NOT USE')
 st.image('./data/icon.png') 
+
+st.session_state['disclaimer'] = True
+
+
 
 
 """
 
-# RPL Fee Switch Calculator
+# Rocket Pool Fee Switch Calculator
 
-This page is a collection of calculators that help you assess RPL as a Node Operator.  
-Access each of the following through the sidebar.
+The sidebar on the left allows access to calculators and resources for Rocket Pool Node Operators.
 
 1. Saturn 1 Voter Share""" 
 
