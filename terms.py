@@ -4,7 +4,7 @@ import math
 import plotly.graph_objects as go
 from pathlib import Path
 
-st.title('Terms')
+st.title('Glossary')
 
 st.markdown('### An explanation of the terms and what they mean')
 
@@ -21,7 +21,7 @@ terms = [
 
 ('nETH','Node Operator ETH.  The amount of ETH you use as a bond for staking with Rocket Pool.  '),
 
-("RPL Ratio","The value of 1 RPL (in ETH).  It is currently {round(st.session_state['current_rpl_price'], 4)}.  This number is important because you cannot receive income from RPL worth more than 150% of your megapool staked ETH."),
+("RPL Ratio",f"The value of 1 RPL (in ETH).  It is currently {round(st.session_state['current_rpl_price'], 4)}.  This number is important because you cannot receive income from RPL worth more than 150% of your megapool staked ETH."),
 
 ('NO Share (%)','The portion of validator income that goes to NOs for running RP validators.  This was voted to be 5% in Saturn 1.'),
 
