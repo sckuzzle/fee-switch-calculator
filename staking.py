@@ -65,12 +65,12 @@ def get_staked_rpl_curve():
     for n in range(200):
         if n > 150:
             n = 150
-        rewards_rate.append(n)
+        rewards_rate.append(n/150)
     rewards_rate = np.array(rewards_rate, dtype = np.float64)
     return rewards_rate
 
 rewards_curve = get_staked_rpl_curve()
-rewards_curve = flow_per_RPL * rewards_curve
+rewards_curve = flow_per_RPL * rewards_curve * 1.5*4*NO_pools/rpl_ratio
 
 
 fig = go.Figure()

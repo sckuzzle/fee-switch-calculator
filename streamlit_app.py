@@ -54,7 +54,7 @@ if st.session_state['disclaimer']:
                                     st.Page('ETH_flow.py', title = 'Placeholder Calc'),
                                     ],
                     'Resources':[st.Page('assumptions.py', title = 'Assumptions'),
-                                    st.Page('terms.py', title = 'Terms'),
+                                    st.Page('terms.py', title = 'Glossary'),
                                     ],
                     }, expanded = True)
     pg.run()
