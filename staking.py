@@ -11,33 +11,36 @@ st.title('Rocket Pool Saturn 1 Staking Calculator')
 st.markdown("Once Saturn 1 is live, a portion of megapool validator income will go to Node Operators (NOs) who stake RPL.  The APR will depend on staking APR, the number of megapool validators, and the amount of staked RPL.")
 
 st.markdown("### Rocket Pool Settings")
-col1, col2, col3 = st.columns(3)
-solo_staking_apr =col1.number_input('Solo Staking APR (%)', value = 3., step = 0.1, help='The APR that a solo staker gets')
-total_validators = col2.number_input('Total Megapool Validators', min_value = 1, value = 30000, help = "The number of Rocket Pool validators created in Saturn 1")
-total_staked_RPL = col3.number_input('Total RPL Staked in Megapools', min_value = 1, value = 11000000, help = "The amount of RPL that gets staked in Saturn 1.  Each NO cannot exceed 150% of the value of their megapool staked ETH")
+col1, col2= st.columns(2)
+total_validators = col2.number_input('Total Megapool Validators', min_value = 1, value = 20000, help = "The number of Rocket Pool validators created in Saturn 1.  More validators results in more ETH income to RPL stakers. ")
+total_staked_RPL = col1.number_input('Total RPL Staked in Megapools', min_value = 1, value = 8000000, help = "The amount of RPL that gets staked in Saturn 1.  Each NO cannot exceed 150% of the value of their megapool staked ETH.  More staked RPL will dilute the rewards to RPL stakers.")
 
-col1, col2, col3 = st.columns(3)
-nETH_per =col1.number_input('Average nETH per Validator', value = 4., min_value = 1., step = 0.1, help = "The average amount of nETH required per validator.  This is expected to be 4 for Saturn 1, and will be smaller for Saturn 2.")
-voter_share = col2.number_input('Voter Share (%)', value = 9., step = 1., min_value = 0., format="%.1f", help = "The percentage of income from validators that goes to voter share.  This was voted to be 9% in Saturn 1")
-rpl_ratio = col3.number_input('RPL Ratio', value = st.session_state['current_rpl_price'], min_value = 0.000001, format="%.4f", step = 0.0001, help = "The value of 1 RPL (in ETH)")
+with st.expander('Advanced Rocket Pool Settings'):
+    st.markdown('These settings are either not expected to change or not as important.  However, they are included here if you want to play with them anyway.')
+    col1, col2, col3 = st.columns(3)
+    nETH_per =col1.number_input('Average nETH per Validator', value = 4., min_value = 1., step = 0.1, help = "The average amount of Node-Operator staked ETH (nETH) required per validator.  This is expected to be 4 for Saturn 1, and will be smaller for Saturn 2. The amount of nETH per validator affects how much protocol ETH is staked and how much income goes to RPL stakers.")
+    voter_share = col2.number_input('Voter Share (%)', value = 9., step = 1., min_value = 0., format="%.1f", help = "The percentage of income from staked protocol ETH that goes to voter share.  This was voted to be 9% in Saturn 1")
+    rpl_ratio = col3.number_input('RPL Ratio', value = st.session_state['current_rpl_price'], min_value = 0.000001, format="%.4f", step = 0.0001, help = "The value of 1 RPL (in ETH).  The RPL ratio affects how much RPL you can stake on your node (you cannot exceed 150% of the value of your staked ETH).")
 
-col1, col2, col3 = st.columns(3)
-NO_share = col1.number_input('NO Share (%)', value = 5., min_value = 0., step = 1., format="%.1f", help = "The portion of validator income that goes to NOs for running RP validators.  This was voted to be 5% in Saturn 1")
-
-st.markdown("### Node Operator (NO) Settings")
-col1, col2, col3 = st.columns(3)
-NO_pools = col1.number_input('Number of Validators', value = 1, min_value = 1, help = f"The number of validators your node will run.  Assumes you average the same nETH per validator as the protocol (currently set to {round(nETH_per, 2)})")
-staked_RPL = col2.number_input('NO Staked RPL', value = 0., help = "The amount of RPL staked in the megapool by the Node Operator")
-
-st.header('Results', divider='gray')
+    col1, col2, col3 = st.columns(3)
+    solo_staking_apr =col1.number_input('Solo Staking APR (%)', value = 3., step = 0.1, help='The APR that a solo staker gets')
+    NO_share = col2.number_input('NO Share (%)', value = 5., min_value = 0., step = 1., format="%.1f", help = "The portion of validator income that goes to NOs for running RP validators.  This was voted to be 5% in Saturn 1")
 
 # Per interval
 net_voter_flow = (32-nETH_per)*total_validators*(solo_staking_apr/100)*(voter_share/100)*28/365
 flow_per_RPL = net_voter_flow / total_staked_RPL
 
 st.markdown(f"If there are {total_validators} megapool validators and {total_staked_RPL} RPL staked:")
-st.markdown(f"The total amount of ETH flowing to voters is :blue[{round(net_voter_flow, 1)}] ETH every interval (28 days). This means that each effectively staked RPL receives :blue[{str(round(flow_per_RPL*1e9))}] gwei per interval.")
-st.markdown(f'Note: could also display the last sentence as "This means that each effectively staked RPL receives :blue[{str(round(flow_per_RPL, 6))}] ETH per interval."')
+st.markdown(f"The total amount of ETH flowing to voters is **:blue[{round(net_voter_flow, 1)}]** ETH every interval (28 days). This means that each effectively staked RPL receives **:blue[{str(format(flow_per_RPL, 'f'))}]** ETH per interval.")
+
+
+st.markdown("### Node Operator (NO) Settings")
+col1, col2 = st.columns(2)
+NO_pools = col1.number_input('Number of Validators', value = 1, min_value = 1, help = f"The number of validators your node will run.  Assumes you average the same nETH per validator as the protocol (currently set to {round(nETH_per, 2)})")
+staked_RPL = col2.number_input('NO Staked RPL', value = 0., help = "The amount of RPL staked in the megapool by the Node Operator")
+
+st.header('Results', divider='gray')
+
 
 #NO Calculations
 validator_income = NO_pools*(nETH_per+(32-nETH_per)*NO_share/100)*solo_staking_apr/100*28/365
