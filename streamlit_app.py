@@ -50,11 +50,12 @@ if 'disclaimer' not in st.session_state:
 
 if st.session_state['disclaimer']:
     pg = st.navigation({'Calculators': [st.Page("home.py", title = 'Home'), 
-                                    st.Page("staking.py", title = 'Saturn 1 Staking'), 
-                                    st.Page('ETH_flow.py', title = 'Placeholder Calc'),
+                                    st.Page("S1_staking.py", title = 'Saturn 1 Staking'), 
+                                    st.Page('S2_staking.py', title = 'Saturn 2 Staking'),
                                     ],
                     'Resources':[st.Page('assumptions.py', title = 'Assumptions'),
                                     st.Page('terms.py', title = 'Glossary'),
+                                    st.Page('feedback.py', title = "Questions and Feedback"),
                                     ],
                     }, expanded = True)
     pg.run()
