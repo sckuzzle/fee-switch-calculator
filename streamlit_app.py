@@ -42,23 +42,24 @@ def set_state():
     st.session_state['disclaimer'] = True
 
 
-
 if 'disclaimer' not in st.session_state:
     st.session_state['disclaimer'] = False
 
 
 
 if st.session_state['disclaimer']:
-    pg = st.navigation({'Calculators': [st.Page("home.py", title = 'Home'), 
-                                    st.Page("S1_staking.py", title = 'Saturn 1 Staking'), 
-                                    st.Page('S2_staking.py', title = 'Saturn 2 Staking'),
+    pg = st.navigation({'Calculators': [
+                                    st.Page("pages/home.py", title = 'Home'), 
+                                    st.Page("pages/S1_staking.py", title = 'Saturn 1 Staking'), 
+                                    st.Page('pages/S2_staking.py', title = 'Saturn 2 Staking'),
                                     ],
-                    'Resources':[st.Page('assumptions.py', title = 'Assumptions'),
-                                    st.Page('terms.py', title = 'Glossary'),
-                                    st.Page('feedback.py', title = "Questions and Feedback"),
+                    'Resources':[st.Page('pages/assumptions.py', title = 'Assumptions'),
+                                    st.Page('pages/terms.py', title = 'Glossary'),
+                                    st.Page('pages/feedback.py', title = "Questions and Feedback"),
                                     ],
                     }, expanded = True)
     pg.run()
+
 else:
     st.markdown('# Rocket Pool Fee Switch Calculator')
     st.markdown('## Disclaimer')
@@ -69,20 +70,6 @@ else:
 
 
 ''
-
-# st.line_chart(
-#     filtered_gdp_df,
-#     x='Year',
-#     y='GDP',
-#     color='Country Code',
-# )
-
-# fig = go.Figure()
-# fig.add_trace(go.Scatter(x=GDP_plot[country]['Year'], y = GDP_plot[country]['GDP'],
-#                     mode='lines',
-#                     name=country))
-# st.plotly_chart(fig)
-
 ''
 ''
 
