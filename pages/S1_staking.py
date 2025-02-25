@@ -13,7 +13,7 @@ def display_page():
     st.markdown("## Rocket Pool Estimates")
 
     st.markdown("In Saturn 1, a portion of megapool validator income will go to Node Operators (NOs) who stake RPL.  The APY will heavily depend on the total amount of megapool validators and the amount of megapool staked RPL, which do not exist yet. ")
-    st.markdown("Historically, Rocket Pool has had roughly 30k validatorsInput your estimations below!")
+    st.markdown("Historically, Rocket Pool has had roughly 30k validators, and hovers around 10m staked RPL.  Not all of this may migrate to megapools, and these values may change.  Input your estimations below!")
 
     col1, col2, col3= st.columns(3)
     total_validators = col2.number_input('Total Megapool Validators', min_value = 1, value = 20000, help = "The number of Rocket Pool validators created in Saturn 1.  More validators results in more ETH income to RPL stakers. ")
