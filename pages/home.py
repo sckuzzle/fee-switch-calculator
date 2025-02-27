@@ -18,32 +18,20 @@ st.markdown("This app is an attempt to explain the mechanics in simple terms and
 st.markdown("## Navigation")
 """
 The sidebar on the left allows access to calculators and resources for Rocket Pool Node Operators.
-
-##### Saturn 1 Voter Share""" 
-
-# st.page_link("pages/S1_staking.py", label = "## Saturn 1 Voter Share") 
-
-""" About how much ETH will you get per month from voter share during Saturn 1?  Also includes normal staking income and RPL issuance rewards.
-
-##### Saturn 2 Staking
-
-**Waiting on Saturn 2 Vote!**  Placeholder when Saturn 2 plans are finalized.
-
-##### Assumptions
-
-The assumptions calculators need to make in order to estimate future states.
-
-##### Glossary
-
-Confused by any terms?  Check here for a more thorough explanation or more information!
 """
-''
-''
-''
-''
-''
-''
-''
+
+navigation = [
+            ('**Saturn 1 Voter Share**', 'pages/S1_staking.py', 'About how much ETH will you get per month from voter share during Saturn 1?  Also includes normal staking income and RPL issuance rewards.'),
+            ('**Saturn 2 Staking**', 'pages/S2_staking.py', '**Waiting on Saturn 2 Vote!**  Placeholder when Saturn 2 plans are finalized.'),
+            ('**Assumptions**', 'pages/assumptions.py', 'The assumptions calculators need to make in order to estimate future states.'),
+            ('**Glossary**', 'pages/terms.py', 'Confused by any terms?  Check here for a more thorough explanation or more information!'),
+            ('**Feedback**', 'pages/feedback.py', 'Links to a place where you can ask questions or give feedback.'),
+            ]
+
+for a, link, b in navigation:
+    col1, col2 = st.columns((2, 5))
+    col1.page_link(link, label = a)
+    col2.markdown(b)
 
 
 S1_staking.display_page()

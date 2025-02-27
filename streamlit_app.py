@@ -64,6 +64,7 @@ else:
     st.markdown('# Rocket Pool Fee Switch Calculator')
     st.markdown('## Disclaimer')
     st.markdown('This is a speculative calculator!  It allows you to input what you think will happen with Rocket Pool in Saturn 1 and then calculate the amount of income Node Operators staking RPL would expect to get as a result.  Default values are provided that should be in the right ballpark, but you can (and should!) adjust them!')
+    st.markdown(str(st.session_state['disclaimer']))
     st.button("I understand.", on_click = set_state)
     if st.session_state['disclaimer']:
         st.rerun()
