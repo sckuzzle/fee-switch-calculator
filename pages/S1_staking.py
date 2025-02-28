@@ -17,18 +17,18 @@ def display_page():
 
     col1, col2, col3= st.columns(3)
     total_validators = col2.number_input('Total Megapool Validators', min_value = 1, value = 20000, help = "The number of Rocket Pool validators created in Saturn 1.  More validators results in more ETH income to RPL stakers. ")
-    total_staked_RPL = col1.number_input('Total RPL Staked in Megapools', min_value = 1, value = 8000000, help = "The amount of RPL that gets staked in Saturn 1.  Each NO cannot exceed 150% of the value of their megapool staked ETH.  More staked RPL will dilute the rewards to RPL stakers.")
+    total_staked_RPL = col1.number_input('Total RPL Staked in Megapools', min_value = 1, value = 8000000, help = "The amount of RPL that gets staked in Saturn 1.  Each Node Operator cannot exceed 150% of the value of their megapool staked ETH.  More staked RPL will dilute the rewards to RPL stakers.")
     rpl_ratio = col3.number_input('RPL Ratio', value = st.session_state['current_rpl_price'], min_value = 0.000001, format="%.4f", step = 0.0001, help = "The value of 1 RPL (in ETH).  The RPL ratio affects how much RPL you can stake on your node (you cannot exceed 150% of the value of your staked ETH) for voter share.  It also affects APY (since the RPL ratio affects the value of your capital).")
 
     with st.expander('Advanced Rocket Pool Settings'):
         st.markdown('These settings are either not expected to change or are not as important.  However, they are included here if you want to play with them anyway.')
         col1, col2= st.columns(2)
-        NO_share = col1.number_input('NO Share (%)', value = 5., min_value = 0., step = 1., format="%.1f", help = "The portion of validator income that goes to NOs for running RP validators.  This was voted to be 5% in Saturn 1")
-        voter_share = col2.number_input('Voter Share (%)', value = 9., step = 1., min_value = 0., format="%.1f", help = "The percentage of income from staked protocol ETH that goes to voter share.  This was voted to be 9% in Saturn 1")
+        NO_share = col1.number_input('NO Share (%)', value = 5., min_value = 0., step = 1., format="%.1f", help = "The portion of validator income that goes to Node Operators for running RP validators.  This was voted to be 5% in Saturn 1")
+        voter_share = col2.number_input('Voter Share (%)', value = 9., step = 1., min_value = 0., format="%.1f", help = "The percentage of income from staked protocol ETH that goes to the voter share revenue stream.  This revenue stream gets returned equally to RPL stakers in proportion to their effectively staked RPL.  The share was voted to be 9% in Saturn 1")
 
         col1, col2 = st.columns(2)
         solo_staking_APY =col1.number_input('Solo Staking APY (%)', value = 3., step = 0.1, help='The APY that a solo staker gets')
-        nETH_per =col2.number_input('Average ETH Bond per Validator', value = 4., min_value = 1., step = 0.1, help = "The average amount of Node-Operator staked ETH (nETH) required per validator.  This is the bond that Operators put up to create minipools, and is expected to be 4 for Saturn 1 and smaller for Saturn 2. The amount of nETH per validator affects how much protocol ETH is staked and how much income goes to RPL stakers.  Note that we still expect validators to be 32 ETH total each.")
+        nETH_per =col2.number_input('Average ETH Bond per Validator', value = 4., min_value = 1., step = 0.1, help = "The average amount of Node-Operator staked ETH (nETH) required per validator.  This is the bond that Operators put up to create minipools, and is expected to be 4 for Saturn 1 and smaller for Saturn 2. The bond required per validator affects how much protocol ETH is staked and how much income goes to RPL stakers.  Note that we still expect validators to be 32 ETH total each.")
         
     # Per interval
     net_voter_flow = (32-nETH_per)*total_validators*(solo_staking_APY/100)*(voter_share/100)*28/365
@@ -40,7 +40,7 @@ def display_page():
 
     st.markdown("## Node Operator (NO) Estimates")
     col1, col2 = st.columns(2)
-    NO_pools = col1.number_input('Number of Validators', value = 1, min_value = 1, help = f"The number of validators your node will run.  Assumes you average the same nETH per validator as the protocol (currently set to {round(nETH_per, 2)})")
+    NO_pools = col1.number_input('Number of Validators', value = 1, min_value = 1, help = f"The number of validators your node will run.  Assumes you average the same bond per validator as the protocol (currently set to {round(nETH_per, 2)})")
     staked_RPL = col2.number_input('NO Staked RPL', value = 0., help = "The amount of RPL staked in the megapool by the Node Operator")
 
     #NO Calculations
@@ -88,7 +88,7 @@ def display_page():
 
     full_reward_string = f"You could stake up to **:blue[{round(4*NO_pools*1.5/rpl_ratio-staked_RPL)}]** more RPL that would be eligible for voter share and **:blue[{round(4*NO_pools*issuance_ratio/rpl_ratio-staked_RPL)}]** more RPL before RPL issuance rewards begin to drop off!"
     if staked_RPL*rpl_ratio> 1.5*4*NO_pools:
-        st.markdown(f'**:red[WARNING]:** Your effectively staked RPL for voter share is being limited to 150% of your nETH.  Either increase your staking validators or stake less RPL to receive full voter share income from your RPL.')
+        st.markdown(f'**:red[WARNING]:** Your effectively staked RPL for voter share is being limited to 150% of your bonded ETH.  Either increase your staking validators or stake less RPL to receive full voter share income from your RPL.')
     if staked_RPL == 0:
         st.markdown(f"Your proposed node staking would receive about **:blue[{round(total_income, 3)}]** ETH per 28 days (**:blue[{round(income_APY, 2)}]**% APY).  You are not staking RPL, but it would receive about **:blue[{round(theoretical_RPL_APY, 2)}]**% APY from voter share and 2.3% APY from RPL issuance rewards.")
         st.plotly_chart(fig)
