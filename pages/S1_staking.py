@@ -12,7 +12,7 @@ def display_page():
 
     st.markdown("## Rocket Pool Estimates")
 
-    st.markdown("In Saturn 1, a portion of megapool validator income will go to Node Operators (NOs) who stake RPL.  The APY will heavily depend on the total amount of megapool validators and the amount of megapool staked RPL, which do not exist yet. ")
+    st.markdown("In Saturn 1, new validators will be aggregated into megapools. A portion of megapool validator income will go to Node Operators (NOs) who stake RPL. The APY will heavily depend on the total amount of megapool validators and the amount of megapool staked RPL, which do not exist yet. ")
     st.markdown("Historically, Rocket Pool has had roughly 30k validators, and hovers around 10m staked RPL.  Not all of this may migrate to megapools, and these values may change.  Input your estimations below!")
 
     col1, col2, col3= st.columns(3)
@@ -33,9 +33,10 @@ def display_page():
     # Per interval
     net_voter_flow = (32-nETH_per)*total_validators*(solo_staking_APY/100)*(voter_share/100)*28/365
     flow_per_RPL = net_voter_flow / total_staked_RPL
+    theoretical_RPL_APY = flow_per_RPL / rpl_ratio * 365/28*100
 
     st.markdown(f"If there are {total_validators} megapool validators and {total_staked_RPL} RPL staked:")
-    st.markdown(f"The total amount of ETH flowing to voters is **:blue[{round(net_voter_flow, 1)}]** ETH every interval (28 days). This means that each effectively staked RPL receives **:blue[{str(format(flow_per_RPL, 'f'))}]** ETH per interval.")
+    st.markdown(f"The total amount of ETH flowing to voters is **:blue[{round(net_voter_flow, 1)}]** ETH every interval (28 days). This means that each effectively staked RPL receives **:blue[{str(format(flow_per_RPL, 'f'))}]** ETH (**:blue[{round(theoretical_RPL_APY, 2)}]**% APY) per interval.")
 
 
     st.markdown("## Node Operator (NO) Estimates")
@@ -50,7 +51,7 @@ def display_page():
     RPL_income = flow_per_RPL*effective_RPL
     total_income = validator_income + RPL_income
     income_APY = total_income / (NO_pools*nETH_per + rpl_ratio*staked_RPL)*365/28*100
-    theoretical_RPL_APY = flow_per_RPL / rpl_ratio * 365/28*100
+
 
     # Ratio when RPL rewards start to drop off
     issuance_ratio = 0.15 * (32-nETH_per)/nETH_per
